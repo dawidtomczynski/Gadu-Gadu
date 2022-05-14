@@ -17,7 +17,7 @@ sql_create_table_messages = "CREATE TABLE Messages(" \
 try:
     connection = psycopg2.connect(
         user="postgres", password="123Frytki",
-        host="127.0.0.1", port="5432"
+        host="127.0.0.1"
     )
     connection.autocommit = True
     cursor = connection.cursor()
@@ -30,7 +30,7 @@ try:
 
     connection = psycopg2.connect(
         database="gadugadu", user="postgres", password="123Frytki",
-        host="127.0.0.1", port="5432"
+        host="127.0.0.1"
     )
     connection.autocommit = True
     cursor = connection.cursor()

@@ -3,7 +3,7 @@ import psycopg2
 sql_create_db = "CREATE DATABASE GaduGadu;"
 sql_create_table_users = "CREATE TABLE Users(" \
                          "id serial NOT NULL PRIMARY KEY, " \
-                         "username varchar(255) NOT NULL, " \
+                         "username varchar(255) NOT NULL UNIQUE, " \
                          "hashed_password varchar(80) NOT NULL)"
 sql_create_table_messages = "CREATE TABLE Messages(" \
                          "id serial NOT NULL PRIMARY KEY," \

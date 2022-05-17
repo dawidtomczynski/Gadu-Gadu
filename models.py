@@ -1,4 +1,3 @@
-import psycopg2
 from clcrypto import hash_password
 from datetime import datetime
 
@@ -17,7 +16,7 @@ class Users:
     def hashed_password(self):
         return self._hashed_password
 
-    def set_password(self, password, salt=""):
+    def set_password(self, password, salt=None):
         self._hashed_password = hash_password(password, salt)
 
     @hashed_password.setter
@@ -81,9 +80,12 @@ class Users:
         self._id = -1
         return True
 
+    def __repr__(self):
+        return f"ID: {self._id}, Username: {self.username}, Password: {self._hashed_password} \n"
+
 
 class Messages:
-    def __init__(self, from_id, to_id, text, creation_date=None):
+    def __init__(self, from_id="", to_id="", text="" , creation_date=None):
         self._id = -1
         self.from_id = from_id
         self.to_id = to_id
@@ -123,3 +125,19 @@ class Messages:
             loaded_message.creation_date = creation_date
             messages.append(loaded_message)
             return messages
+
+    @staticmethod
+    def load_messages_by_to_id(cursor, to_id):
+        sql = "SELECT id, username, hashed_password FROM Users WHERE id=%s"
+        cursor.execute(sql, (to_id,))
+        data = cursor.fetchone()
+        if data:
+            id_, username, hashed_password = data
+            loaded_user = Users(username)
+            loaded_user._id = id_
+            loaded_user._hashed_password = hashed_password
+            return loaded_user
+
+
+    def __repr__(self):
+        return f"From ID: {self.from_id}, To ID: {self.to_id}, Message: {self.text}, Date: {self.creation_date} \n"
